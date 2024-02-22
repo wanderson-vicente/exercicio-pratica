@@ -70,10 +70,20 @@ async function main() {
   // printAll(myArray);
   // findPersonId(3);
   // updateFile([10, 6], 'simpsons.json');
-  readAndWriteNewFileById([1, 2, 3, 4], 'simpsonFamily.json');
+  // readAndWriteNewFileById([1, 2, 3, 4], 'simpsonFamily.json');
   // readFile('simpsonFamily.json');
   // addPersonFile({ id: '15', name: 'Nelson Muntz' });
   // updataFile(15, { id: '5', name: 'Maggie Simpson' });
 }
 
 main();
+module.exports = {
+  readFile,
+  writeFile,
+  printAll,
+  findPersonId,
+  updateFile,
+  readAndWriteNewFileById,
+  addPersonFile,
+  updataFile,
+};
