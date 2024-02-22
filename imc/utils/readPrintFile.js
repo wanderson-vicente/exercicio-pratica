@@ -17,7 +17,7 @@ async function readFile(file) {
 async function writeFile(name, array) {
   const pathAndFile = `${PATH_DATA}/${name}`;
   try {
-    await fs.writeFile(pathAndFile, JSON.stringify(array));
+    await fs.writeFile(pathAndFile, JSON.stringify(array, null, 2));
   } catch (err) {
     console.error(`Erro de gravação: ${err}`);
   }
@@ -70,7 +70,7 @@ async function main() {
   // printAll(myArray);
   // findPersonId(3);
   // updateFile([10, 6], 'simpsons.json');
-  // readAndWriteNewFileById([1, 2, 3, 4], 'simpsonFamily.json');
+  readAndWriteNewFileById([1, 2, 3, 4], 'simpsonFamily.json');
   // readFile('simpsonFamily.json');
   // addPersonFile({ id: '15', name: 'Nelson Muntz' });
   // updataFile(15, { id: '5', name: 'Maggie Simpson' });
