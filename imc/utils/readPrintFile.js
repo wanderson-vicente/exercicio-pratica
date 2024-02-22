@@ -27,16 +27,26 @@ async function writeFile(name, array) {
 
 async function printAll(myArray) {
   try {
-    myArray.map(({ id, name }) => console.log(`${id} - ${name}`));
+    const listing = myArray.map(({ id, name }) => (`${id} - ${name}`));
+    console.log('Id - Nome do personagem');
+    listing.forEach((person) => console.log(person));
   } catch (err) {
   console.error(`Erro: Função tem que receber um array ${err}`);
   }
 }
+
+async function findPersonId(id) {
+  const listing = await (readAll());
+  const personId = listing.find((person) => Number(person.id) === id);
+  console.log(personId);
+}
+
 async function main() {
   const myArray = await readAll();
   // console.log(myArray);
   // writeFile('teste.json', myArray);
-  printAll(myArray);
+  // printAll(myArray);
+  findPersonId(3);
 }
 
 main();
