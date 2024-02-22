@@ -1,15 +1,25 @@
 const fs = require('fs').promises;
 const path = require('path');
 
-const PATH_DATA = '../data/';
+const PATH_DATA = path.resolve(__dirname, '../data/');
+// const myFile = path.resolve(__dirname, '../data/simpsons.json');
+// async function readAll() {
+//   try {
+//     const data = await fs.readFile(myFile, 'utf-8');
+//     const simpsons = JSON.parse(data);
+//     // console.log(simpsons);
+//     return simpsons;
+//   } catch (err) {
+//     console.error(`Erro ao ler o arquivo; ${err}`);
+//     return null;
+//   }
+// }
 
-const myFile = path.resolve(__dirname, '../data/simpsons.json');
-async function readAll() {
+async function readFile(file) {
   try {
-    const data = await fs.readFile(myFile, 'utf-8');
-    const simpsons = JSON.parse(data);
-    // console.log(simpsons);
-    return simpsons;
+    const data = await fs.readFile(`${PATH_DATA}/${file}`, 'utf-8');
+    const persons = JSON.parse(data);
+    return persons;
   } catch (err) {
     console.error(`Erro ao ler o arquivo; ${err}`);
     return null;
@@ -17,7 +27,7 @@ async function readAll() {
 }
 
 async function writeFile(name, array) {
-  const pathAndFile = `${PATH_DATA}${name}`;
+  const pathAndFile = `${PATH_DATA}/${name}`;
   try {
     await fs.writeFile(pathAndFile, JSON.stringify(array));
   } catch (err) {
@@ -36,31 +46,39 @@ async function printAll(myArray) {
 }
 
 async function findPersonId(id) {
-  const listing = await (readAll());
+  const listing = await (readFile('simpsons.json'));
   const personId = listing.find((person) => Number(person.id) === id);
   console.log(personId);
 }
 
 async function updateFile(myArray, file) {
-  const listing = await readAll();
+  const listing = await readFile('simpsons.json');
   const newArray = listing.filter((person) => !myArray.includes(Number(person.id)));
   writeFile(file, newArray);
 } 
 
 async function readAndWriteNewFileById(myArray, file) {
-  const listing = await readAll();
+  const listing = await readFile('simpsons.json');
   const newArray = listing.filter((person) => myArray.includes(Number(person.id)));
   writeFile(file, newArray);
 }
 
+async function addPersonFile(myobject) {
+  const listing = await readFile('simpsonFamily.json');
+  listing.push(myobject);
+  writeFile('simpsonFamily.json', listing);
+}
+
 async function main() {
-  const myArray = await readAll();
+  // const myArray = await readFile('simpsons.json');
   // console.log(myArray);
   // writeFile('teste.json', myArray);
   // printAll(myArray);
   // findPersonId(3);
   // updateFile([10, 6], 'simpsons.json');
-  readAndWriteNewFileById([1, 2, 3, 4], 'simpsonFamily.json');
+  // readAndWriteNewFileById([1, 2, 3, 4], 'simpsonFamily.json');
+  // readFile('simpsonFamily.json');
+  addPersonFile({ id: '15', name: 'Nelson Muntz' });
 }
 
 main();
