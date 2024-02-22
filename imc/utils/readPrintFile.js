@@ -41,12 +41,19 @@ async function findPersonId(id) {
   console.log(personId);
 }
 
+async function updateFile(myArray, file) {
+  const listing = await readAll();
+  const newArray = listing.filter((person) => !myArray.includes(Number(person.id)));
+  writeFile(file, newArray);
+} 
+
 async function main() {
   const myArray = await readAll();
   // console.log(myArray);
   // writeFile('teste.json', myArray);
   // printAll(myArray);
-  findPersonId(3);
+  // findPersonId(3);
+  updateFile([10, 6], 'simpsons.json');
 }
 
 main();
