@@ -47,13 +47,20 @@ async function updateFile(myArray, file) {
   writeFile(file, newArray);
 } 
 
+async function readAndWriteNewFileById(myArray, file) {
+  const listing = await readAll();
+  const newArray = listing.filter((person) => myArray.includes(Number(person.id)));
+  writeFile(file, newArray);
+}
+
 async function main() {
   const myArray = await readAll();
   // console.log(myArray);
   // writeFile('teste.json', myArray);
   // printAll(myArray);
   // findPersonId(3);
-  updateFile([10, 6], 'simpsons.json');
+  // updateFile([10, 6], 'simpsons.json');
+  readAndWriteNewFileById([1, 2, 3, 4], 'simpsonFamily.json');
 }
 
 main();
