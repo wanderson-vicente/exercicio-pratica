@@ -2,7 +2,7 @@ const fs = require('fs').promises;
 const path = require('path');
 
 const PATH_DATA = path.resolve(__dirname, '../data/');
-
+const FILE_TEST = 'simpsons.json';
 async function readFile(file) {
   try {
     const data = await fs.readFile(`${PATH_DATA}/${file}`, 'utf-8');
@@ -17,7 +17,7 @@ async function readFile(file) {
 async function writeFile(name, array) {
   const pathAndFile = `${PATH_DATA}/${name}`;
   try {
-    await fs.writeFile(pathAndFile, JSON.stringify(array));
+    await fs.writeFile(pathAndFile, JSON.stringify(array, null, 2));
   } catch (err) {
     console.error(`Erro de gravação: ${err}`);
   }
@@ -34,32 +34,32 @@ async function printAll(myArray) {
 }
 
 async function findPersonId(id) {
-  const listing = await (readFile('simpsons.json'));
+  const listing = await (readFile(FILE_TEST));
   const personId = listing.find((person) => Number(person.id) === id);
   return personId;
 }
 
 async function updateFile(myArray, file) {
-  const listing = await readFile('simpsons.json');
+  const listing = await readFile(FILE_TEST);
   const newArray = listing.filter((person) => !myArray.includes(Number(person.id)));
   writeFile(file, newArray);
 } 
 
 async function readAndWriteNewFileById(myArray, file) {
-  const listing = await readFile('simpsons.json');
+  const listing = await readFile(FILE_TEST);
   const newArray = listing.filter((person) => myArray.includes(Number(person.id)));
   writeFile(file, newArray);
 }
 
 async function addPersonFile(myobject) {
-  const listing = await readFile('simpsonFamily.json');
+  const listing = await readFile(FILE_TEST);
   listing.push(myobject);
   writeFile('simpsonFamily.json', listing);
 }
 
 async function updataFile(idDelete, myobject) {
-  const listing = await readFile('simpsonFamily.json');
-  const listingIdDelete = listing.filter((person) => Number(person.id) != idDelete);
+  const listing = await readFile(FILE_TEST);
+  const listingIdDelete = listing.filter((person) => Number(person.id) !== idDelete);
   listingIdDelete.push(myobject);
   console.log(listingIdDelete);
 }
@@ -77,3 +77,13 @@ async function main() {
 }
 
 main();
+module.exports = {
+  readFile,
+  writeFile,
+  printAll,
+  findPersonId,
+  updateFile,
+  readAndWriteNewFileById,
+  addPersonFile,
+  updataFile,
+};
